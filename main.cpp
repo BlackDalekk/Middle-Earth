@@ -56,6 +56,8 @@
 const int wHeight = 600, wWidth = 800; //высота, ширина окна
 const int heightMap = 13, widthMap = 18; //колическто крадратов 100х100 травы на карте
 
+
+
 int main()
 {
 	setlocale(LC_ALL, "Russian");
@@ -67,6 +69,7 @@ int main()
 	bool flag_x = 1 , flag_y = 1;
 	const int speed = 5;
 
+	sf::Clock clock;
 	ground* rocks[widthMap][heightMap];
 
 	mainHero hero((char*)"hero.png");
@@ -101,6 +104,20 @@ int main()
 	while (window.isOpen())
 	{
 		hero.upDate();
+		if (clock.getElapsedTime().asSeconds() > 0.05)
+		{
+			for (int i = 0; i < widthMap; i++)
+			{
+				for (int j = 0; j < heightMap; j++)
+				{
+					if (gr[i][j]->ty == WATER)
+						((water*)gr[i][j])->upDate();
+					
+				}
+			}
+			clock.restart();
+		}
+		
 		window.setView(view);
 		sf::Event event;
 		while (window.pollEvent(event))

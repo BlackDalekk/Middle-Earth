@@ -94,11 +94,16 @@ public:
 	sf::Vector2i origin_collision_sprite; //в центре collisionSprite
 	sf::Vector2i size_of_collision_sprite;
 
+	sf::Texture texture[4];
+	int c = 0;
+
 	water()
 	{
-		if (!texture.loadFromFile("water.png")) std::cout << "Ошибка загрузки текстуры\n";
-		texture.setSmooth(true);
-		sprite.setTexture(texture);
+		if (!texture[0].loadFromFile("water1.png")) std::cout << "Ошибка загрузки текстуры\n";
+		if (!texture[1].loadFromFile("water2.png")) std::cout << "Ошибка загрузки текстуры\n";
+		if (!texture[2].loadFromFile("water3.png")) std::cout << "Ошибка загрузки текстуры\n";
+		if (!texture[3].loadFromFile("water4.png")) std::cout << "Ошибка загрузки текстуры\n";
+		sprite.setTexture(texture[0]);
 		ty = WATER;
 	}
 	void initObj(sf::Vector2i pos_of_origin)
@@ -109,6 +114,11 @@ public:
 		origin_collision_sprite = sf::Vector2i(origin_sprite.x + 50, origin_sprite.y + 50);
 		size_of_collision_sprite.x = 100;
 		size_of_collision_sprite.y = 100;
+	}
+	void upDate()
+	{
+		sprite.setTexture(texture[c++]);
+		if (c == 4) c = 0;
 	}
 };
 class mainHero
