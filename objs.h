@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
-enum tyLocality { GRASS = 0, ROCK, ROAD , WATER};
+enum tyLocality { GRASS = 0, ROCK, ROAD , WATER , MOUNTAIN };
 
 bool isIntersection(sf::Vector2i origin1, sf::Vector2i origin2, sf::Vector2i size1, sf::Vector2i size2);
 bool isIntersectionOneCoordinatX(sf::Vector2i origin1, sf::Vector2i origin2, sf::Vector2i size1, sf::Vector2i size2);
@@ -54,7 +54,6 @@ public:
 
 	rock()
 	{
-		//ground((char*)"rock.png", ROCK);
 		if (!texture.loadFromFile("rock.png")) std::cout << "Ошибка загрузки текстуры камня\n";
 		texture.setSmooth(true);
 		sprite.setTexture(texture);
@@ -121,6 +120,31 @@ public:
 		if (c == 4) c = 0;
 	}
 };
+
+class mountain : public ground
+{
+public:
+	sf::Vector2i origin_collision_sprite; //в центре collisionSprite
+	sf::Vector2i size_of_collision_sprite;
+	mountain()
+	{
+		if (!texture.loadFromFile("mountain.png")) std::cout << "Ошибка загрузки текстуры горы\n";
+		texture.setSmooth(true);
+		sprite.setTexture(texture);
+		ty = MOUNTAIN;
+
+	}
+	void initObj(sf::Vector2i pos_of_origin) //заполняем спрайт и инициализируем все остальное. collSprite, центры и размеры
+	{
+		sprite.setPosition(pos_of_origin.x, pos_of_origin.y);
+		origin_sprite = sf::Vector2i(sprite.getPosition());
+
+		origin_collision_sprite = sf::Vector2i(origin_sprite.x + 50, origin_sprite.y + 50);
+		size_of_collision_sprite.x = 100;
+		size_of_collision_sprite.y = 100;
+	}
+};
+
 class mainHero
 {
 public:

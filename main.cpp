@@ -95,6 +95,8 @@ int main()
 				(y >= 9 && y < 11) && (x >= 11 && x < 13) ||
 				(y >= 11 && y < 13) && (x >= 11 && x < 13))
 				gr[x][y] = new water();
+			else if ((x >= 1 && x < 7) && (y >= 0 && y < 2))
+				gr[x][y] = new mountain(); //сделать конструктор с именем файла и открывать его , когда дошли до нужного [x][y]. для остальных - конструктор по умолчанию и init
 			else
 				gr[x][y] = new grass();
 			gr[x][y]->initObj(sf::Vector2i(100 * x, 100 * y));
@@ -144,6 +146,19 @@ int main()
 						hero.size_of_collision_sprite,
 						((water*)gr[i][j])->size_of_collision_sprite);*/
 
+					flag_x = isIntersectionOneCoordinatX(hero.origin_collision_sprite + move,
+						((water*)gr[i][j])->origin_collision_sprite,
+						hero.size_of_collision_sprite,
+						((water*)gr[i][j])->size_of_collision_sprite);
+
+					flag_y = isIntersectionOneCoordinatY(hero.origin_collision_sprite + move,
+						((water*)gr[i][j])->origin_collision_sprite,
+						hero.size_of_collision_sprite,
+						((water*)gr[i][j])->size_of_collision_sprite);
+					if (flag_x || flag_y) goto outFor; //если обнаружили стокновение , то сразу выходим из цикла
+				}
+				if (gr[i][j]->ty == MOUNTAIN)
+				{
 					flag_x = isIntersectionOneCoordinatX(hero.origin_collision_sprite + move,
 						((water*)gr[i][j])->origin_collision_sprite,
 						hero.size_of_collision_sprite,
